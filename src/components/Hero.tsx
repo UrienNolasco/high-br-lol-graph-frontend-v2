@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowRight,
   Swords,
@@ -8,45 +8,38 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
-import { ViewState } from "@/types";
+import { HeroProps, HeroStats, ViewState } from "@/types";
 import { Badge, HexButton, GlassCard } from "@/components/ui";
-
-interface HeroProps {
-  setView: (v: ViewState) => void;
-}
-
-interface HeroStats {
-  totalMatches: number;
-  mostPickedChampion: string;
-  mostPickedPickRate: number;
-  averageWinRate: number;
-  mostBannedChampion: string;
-  mostBannedBanRate: number;
-}
+import { heroStatsService } from "@/services/heroStatsService";
 
 export const Hero = ({ setView }: HeroProps) => {
   const [stats, setStats] = useState<HeroStats>({
-    totalMatches: 12400,
-    mostPickedChampion: "Lee Sin",
-    mostPickedPickRate: 22.1,
-    averageWinRate: 50.2,
-    mostBannedChampion: "Zed",
-    mostBannedBanRate: 18.0,
+    totalMatches: 0,
+    mostPickedChampion: "",
+    mostPickedPickRate: 0,
+    averageWinRate: 0,
+    biggestWinRateChampion: "",
+    mostBannedChampion: "",
+    mostBannedBanRate: 0,
+    patch: "",
+    fullVersion: "",
   });
+  const [loading, setLoading] = useState(true);
 
-  // TODO: Replace with real API call when available
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     try {
-  //       const response = await fetch('/api/stats/hero');
-  //       const data = await response.json();
-  //       setStats(data);
-  //     } catch (error) {
-  //       console.error('Error fetching stats:', error);
-  //     }
-  //   };
-  //   fetchStats();
-  // }, []);
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await heroStatsService.getHeroStats();
+        setStats(data);
+      } catch (error) {
+        console.error("Erro ao carregar estatísticas:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
@@ -66,7 +59,7 @@ export const Hero = ({ setView }: HeroProps) => {
             <div className="font-bold text-white">
               {stats.totalMatches.toLocaleString()}
             </div>
-            <div className="text-xs text-textDark">Master+</div>
+            <div className="text-xs text-textDark">Brazil (Master+)</div>
           </div>
         </GlassCard>
       </div>
@@ -85,7 +78,7 @@ export const Hero = ({ setView }: HeroProps) => {
               {stats.mostPickedChampion}
             </div>
             <div className="text-xs text-blue-400">
-              {stats.mostPickedPickRate}%
+              {stats.mostPickedPickRate.toLocaleString()} games
             </div>
           </div>
         </GlassCard>
@@ -100,11 +93,13 @@ export const Hero = ({ setView }: HeroProps) => {
             <Activity className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-xs text-textMuted">Avg Win Rate</div>
+            <div className="text-xs text-textMuted">Biggest Win Rate</div>
             <div className="font-bold text-green-400">
-              {stats.averageWinRate}%
+              {stats.biggestWinRateChampion}
             </div>
-            <div className="text-xs text-textDark">Global (Master+)</div>
+            <div className="text-xs text-green-400">
+              {stats.averageWinRate.toFixed(1)}%
+            </div>
           </div>
         </GlassCard>
       </div>
@@ -134,7 +129,8 @@ export const Hero = ({ setView }: HeroProps) => {
           variant="outline"
           className="mb-6 inline-flex items-center gap-1 border-hextech/30 text-hextech bg-hextech/5"
         >
-          <Zap className="w-3 h-3 fill-current" /> Patch 15.20 Live
+          <Zap className="w-3 h-3 fill-current" /> Patch {stats.patch || "..."}{" "}
+          Live
         </Badge>
 
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">

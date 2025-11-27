@@ -32,3 +32,19 @@ export interface NavItem {
   view: ViewState;
   icon?: React.ReactNode;
 }
+
+export interface HeroProps {
+  setView: (v: ViewState) => void;
+}
+
+export interface HeroStats {
+  totalMatches: number;
+  mostPickedChampion: string;
+  mostPickedPickRate: number;
+  averageWinRate: number;
+  biggestWinRateChampion: string;
+  mostBannedChampion: string;
+  mostBannedBanRate: number;
+  patch: string;
+  fullVersion: string;
+}
