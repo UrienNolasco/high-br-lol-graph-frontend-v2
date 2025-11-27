@@ -34,3 +34,34 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* Variáveis CSS do shadcn/ui para dark mode */
+@layer base {
+  :root {
+    --background: 0 0% 0%; /* #000000 */
+    --foreground: 0 0% 100%; /* #ffffff */
+    --card: 210 10% 5%; /* #0D0D0D */
+    --card-foreground: 0 0% 100%;
+    --popover: 210 10% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 174 85% 40%; /* #0AC8B9 hextech */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 76%; /* #C3C3C3 */
+    --accent: 174 85% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 8%; /* rgba(255,255,255,0.08) */
+    --input: 0 0% 14.9%;
+    --ring: 174 85% 40%;
+    --chart-1: 174 85% 40%; /* hextech */
+    --chart-2: 85 80% 88%; /* challenger */
+    --chart-3: 200 20% 77%; /* mist */
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+}
