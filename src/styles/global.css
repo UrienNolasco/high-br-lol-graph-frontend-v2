@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background-color: #000000;
+  background-color: #080808;
   color: #ffffff;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
@@ -35,33 +35,79 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Variáveis CSS do shadcn/ui para dark mode */
+/* Suporte para backdrop-blur em utilitários Tailwind */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+/* Melhorias para os componentes Command (Combobox) */
+[cmdk-item] {
+  cursor: pointer;
+}
+
+[cmdk-item]:hover {
+  background-color: rgba(26, 26, 26, 0.8) !important;
+}
+
+[cmdk-item][data-selected="true"] {
+  background-color: rgba(26, 26, 26, 1) !important;
+  color: #0ac8b9 !important;
+}
+
+/* Variáveis CSS do shadcn/ui - Tema Glass Dark */
 @layer base {
   :root {
-    --background: 0 0% 0%; /* #000000 */
-    --foreground: 0 0% 100%; /* #ffffff */
-    --card: 210 10% 5%; /* #0D0D0D */
+    /* Cores base */
+    --background: 0 0% 3.1%; /* #080808 */
+    --foreground: 0 0% 100%; /* #FFFFFF */
+
+    /* Cards e Popovers - usando surface (#0D0D0D) com opacidade */
+    --card: 0 0% 5.1%; /* #0D0D0D surface */
     --card-foreground: 0 0% 100%;
-    --popover: 210 10% 5%;
+    --popover: 0 0% 5.1%; /* #0D0D0D surface - mesmo que card */
     --popover-foreground: 0 0% 100%;
-    --primary: 174 85% 40%; /* #0AC8B9 hextech */
+
+    /* Cores primárias - Hextech cyan */
+    --primary: 174 85% 41%; /* #0AC8B9 hextech */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 10%;
+
+    /* Cores secundárias - surfaceLight */
+    --secondary: 0 0% 10.2%; /* #1A1A1A surfaceLight */
     --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 76%; /* #C3C3C3 */
-    --accent: 174 85% 40%;
-    --accent-foreground: 0 0% 100%;
+
+    /* Muted - cores de texto secundário */
+    --muted: 0 0% 10.2%; /* #1A1A1A surfaceLight */
+    --muted-foreground: 0 0% 76.5%; /* #C3C3C3 textMuted */
+
+    /* Accent - usando hextech para highlights e hover */
+    --accent: 0 0% 10.2%; /* #1A1A1A surfaceLight para bg */
+    --accent-foreground: 174 85% 41%; /* #0AC8B9 hextech para texto */
+
+    /* Destrutivo */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 8%; /* rgba(255,255,255,0.08) */
-    --input: 0 0% 14.9%;
-    --ring: 174 85% 40%;
-    --chart-1: 174 85% 40%; /* hextech */
-    --chart-2: 85 80% 88%; /* challenger */
-    --chart-3: 200 20% 77%; /* mist */
+
+    /* Bordas e inputs - usando border rgba(255,255,255,0.08) */
+    --border: 0 0% 8%; /* rgba(255,255,255,0.08) aproximado */
+    --input: 0 0% 10.2%; /* #1A1A1A surfaceLight */
+    --ring: 174 85% 41%; /* #0AC8B9 hextech */
+
+    /* Charts - usando cores do tema */
+    --chart-1: 174 85% 41%; /* #0AC8B9 hextech */
+    --chart-2: 85 80% 88%; /* #C8F9C4 challenger */
+    --chart-3: 200 20% 77%; /* #BFCAD2 mist */
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+
+    /* Radius */
+    --radius: 0.75rem; /* 12px - mais arredondado como GlassCard */
   }
 }

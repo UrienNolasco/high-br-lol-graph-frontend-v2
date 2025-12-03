@@ -48,3 +48,36 @@ export interface HeroStats {
   patch: string;
   fullVersion: string;
 }
+
+// Patch types
+export interface PatchInfo {
+  patch: string;
+  fullVersion: string;
+}
+
+// Champion Stats API Response
+export interface ChampionStatsData {
+  championId: number;
+  championName: string;
+  winRate: number;
+  gamesPlayed: number;
+  wins: number;
+  losses: number;
+  images: {
+    square: string;
+    loading: string;
+    splash: string;
+  };
+  kda: number;
+  dpm: number;
+  cspm: number;
+  gpm: number;
+  banRate: number;
+}
+
+export interface ChampionStatsResponse {
+  data: ChampionStatsData[];
+  total: number;
+  page: number;
+  limit: number;
+}

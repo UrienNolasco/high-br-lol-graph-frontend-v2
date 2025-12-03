@@ -1,25 +1,27 @@
-import { HeroStats } from "@/types";
+import { HeroStats, ChampionStatsResponse } from "@/types";
 import api from "./api";
+import { patchService } from "./patchService";
 
 export const heroStatsService = {
   async getHeroStats(): Promise<HeroStats> {
     try {
-      const patchResponse = await api.get("/api/v1/champions/current-patch");
-      const { patch, fullVersion } = patchResponse.data;
+      // Buscar o patch correto (com dados disponíveis)
+      const patchInfo = await patchService.getPatchWithData();
+      const { patch, fullVersion } = patchInfo;
 
-      // Depois, fazer as requisições usando o patch obtido
+      // Buscar todas as estatísticas em paralelo
       const [totalMatchesResponse, mostPickedResponse, biggestWinRateResponse] =
         await Promise.all([
           api.get("/api/v1/stats/processed-matches"),
-          api.get(
+          api.get<ChampionStatsResponse>(
             `/api/v1/stats/champions?order=desc&sortBy=gamesPlayed&limit=1&page=1&patch=${patch}`
           ),
-          api.get(
+          api.get<ChampionStatsResponse>(
             `/api/v1/stats/champions?order=desc&sortBy=winRate&limit=1&page=1&patch=${patch}`
           ),
         ]);
 
-      const totalMatches = totalMatchesResponse.data.count;
+      const totalMatches = totalMatchesResponse.data?.count || 0;
       const mostPicked = mostPickedResponse.data.data[0];
       const biggestWinRate = biggestWinRateResponse.data.data[0];
 
