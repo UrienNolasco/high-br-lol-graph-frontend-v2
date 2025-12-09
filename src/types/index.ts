@@ -25,6 +25,7 @@ export enum ViewState {
   HOME = "HOME",
   TIER_LIST = "TIER_LIST",
   MATCHUP = "MATCHUP",
+  ARCHITECTURE = "ARCHITECTURE",
 }
 
 export interface NavItem {

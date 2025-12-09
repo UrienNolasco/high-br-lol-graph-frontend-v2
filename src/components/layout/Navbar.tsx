@@ -41,6 +41,7 @@ export const Navbar = ({ currentView, setView }: NavbarProps) => {
           <NavLink view={ViewState.HOME} label="Home" />
           <NavLink view={ViewState.TIER_LIST} label="Tier List" />
           <NavLink view={ViewState.MATCHUP} label="Matchup" />
+          <NavLink view={ViewState.ARCHITECTURE} label="Architecture" />
           <span className="text-textDark cursor-not-allowed">Pro</span>
         </div>
 
@@ -70,6 +71,7 @@ export const Navbar = ({ currentView, setView }: NavbarProps) => {
           <NavLink view={ViewState.HOME} label="Home" />
           <NavLink view={ViewState.TIER_LIST} label="Tier List" />
           <NavLink view={ViewState.MATCHUP} label="Matchup Analysis" />
+          <NavLink view={ViewState.ARCHITECTURE} label="Architecture" />
         </div>
       )}
     </nav>
