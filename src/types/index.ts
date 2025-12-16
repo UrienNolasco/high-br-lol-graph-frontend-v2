@@ -82,3 +82,23 @@ export interface ChampionStatsResponse {
   page: number;
   limit: number;
 }
+
+// Matchup API Response
+export interface MatchupChampionData {
+  name: string;
+  images: {
+    square: string;
+    loading: string;
+    splash: string;
+  };
+  wins: number;
+  winRate: number;
+}
+
+export interface MatchupResponse {
+  championA: MatchupChampionData;
+  championB: MatchupChampionData;
+  gamesPlayed: number;
+  patch: string;
+  role: string;
+}

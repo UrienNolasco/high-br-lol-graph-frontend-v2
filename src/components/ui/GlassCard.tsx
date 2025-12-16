@@ -5,6 +5,17 @@ interface GlassCardProps {
   className?: string;
 }
 
-export const GlassCard = ({ children, className = "" }: GlassCardProps) => (
-  <div className={`glass-panel rounded-xl p-6 ${className}`}>{children}</div>
-);
+export const GlassCard = React.forwardRef<
+  HTMLDivElement,
+  GlassCardProps & React.HTMLAttributes<HTMLDivElement>
+>(({ children, className = "", ...props }, ref) => (
+  <div
+    ref={ref}
+    className={`glass-panel rounded-xl p-6 ${className}`}
+    {...props}
+  >
+    {children}
+  </div>
+));
+
+GlassCard.displayName = "GlassCard";
