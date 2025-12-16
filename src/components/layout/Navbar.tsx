@@ -42,7 +42,6 @@ export const Navbar = ({ currentView, setView }: NavbarProps) => {
           <NavLink view={ViewState.TIER_LIST} label="Tier List" />
           <NavLink view={ViewState.MATCHUP} label="Matchup" />
           <NavLink view={ViewState.ARCHITECTURE} label="Architecture" />
-          <span className="text-textDark cursor-not-allowed">Pro</span>
         </div>
 
         <div className="flex items-center gap-4">
