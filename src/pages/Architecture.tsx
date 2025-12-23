@@ -1,20 +1,30 @@
-import { Card } from "@/components/ui/card";
+import { useState } from "react";
 import {
   ArrowRight,
-  Box,
   Code,
   Cpu,
   Database,
   GitBranch,
   Globe,
-  Layers,
   MessageSquare,
   Server,
-  Terminal,
-  Zap,
 } from "lucide-react";
+import { techData, TechData } from "@/utils/techData";
+import { TechCard } from "@/components/architecture/TechCard";
+import { TechDropZone } from "@/components/architecture/TechDropZone";
+import { TechDetailsCard } from "@/components/architecture/TechDetailsCard";
 
 export const Architecture = () => {
+  const [selectedTech, setSelectedTech] = useState<TechData | null>(null);
+
+  const handleTechDropped = (tech: TechData) => {
+    setSelectedTech(tech);
+  };
+
+  const handleTechRemoved = () => {
+    setSelectedTech(null);
+  };
+
   return (
     <div className="pt-32 pb-24 px-6 max-w-7xl mx-auto min-h-screen animate-in fade-in duration-500">
       {/* Header */}
@@ -40,28 +50,19 @@ export const Architecture = () => {
 
       {/* Tech Stack Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-20">
-        {[
-          { icon: Box, label: "NestJS", color: "text-red-500" },
-          { icon: Terminal, label: "TypeScript", color: "text-blue-400" },
-          { icon: Layers, label: "Docker", color: "text-blue-600" },
-          { icon: MessageSquare, label: "RabbitMQ", color: "text-orange-500" },
-          { icon: Zap, label: "Redis", color: "text-red-600" },
-          { icon: Database, label: "PostgreSQL", color: "text-blue-300" },
-          { icon: Code, label: "Prisma", color: "text-white" },
-          { icon: Globe, label: "Riot API", color: "text-hextech" },
-        ].map((tech) => (
-          <div
-            key={tech.label}
-            className="glass-panel p-4 rounded-xl flex flex-col items-center justify-center gap-3 hover:bg-white/5 transition-colors group"
-          >
-            <tech.icon
-              className={`w-6 h-6 ${tech.color} group-hover:scale-110 transition-transform`}
-            />
-            <span className="text-xs font-medium text-gray-400">
-              {tech.label}
-            </span>
-          </div>
+        {techData.map((tech) => (
+          <TechCard key={tech.id} tech={tech} />
         ))}
+      </div>
+
+      {/* Interactive Tech Selection Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+        <TechDropZone
+          selectedTech={selectedTech}
+          onTechDropped={handleTechDropped}
+          onTechRemoved={handleTechRemoved}
+        />
+        <TechDetailsCard tech={selectedTech} />
       </div>
 
       {/* Architecture Pipeline Visual */}
@@ -151,69 +152,6 @@ export const Architecture = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Deep Dive Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
-        {/* Rate Limiting */}
-        <Card
-          title="Centralized Rate Limiting"
-          subtitle="Redis-backed Sliding Window"
-          className="min-h-[300px]"
-        >
-          <div className="space-y-4 text-sm text-[#C3C3C3] leading-relaxed">
-            <div className="flex items-center gap-2 mb-2">
-              <Zap className="text-yellow-500" size={18} />
-              <span className="text-white font-semibold">Strategy</span>
-            </div>
-            <p>
-              To respect Riot's API limits, we implement a{" "}
-              <span className="text-white">Sliding Window</span> algorithm
-              stored in Redis. Each API key has its own bucket
-              (`riot_requests:&lt;key_hash&gt;`).
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-[#8A8A8A]">
-              <li>Window Size: 120 seconds</li>
-              <li>Max Requests: 100 per window</li>
-              <li>
-                Distributed Locks prevent race conditions across multiple worker
-                containers.
-              </li>
-            </ul>
-            <div className="mt-4 p-3 bg-black/50 rounded-lg border border-white/5 font-mono text-xs text-green-400">
-              GET /api/rate-limit/status
-            </div>
-          </div>
-        </Card>
-
-        {/* Data Flow */}
-        <Card
-          title="Ingestion & Processing"
-          subtitle="Collector -> Worker Pattern"
-          className="min-h-[300px]"
-        >
-          <div className="space-y-4 text-sm text-[#C3C3C3] leading-relaxed">
-            <div className="flex items-center gap-2 mb-2">
-              <Layers className="text-blue-400" size={18} />
-              <span className="text-white font-semibold">Workflow</span>
-            </div>
-            <p>
-              The <strong>Collector</strong> service identifies new matches by
-              polling Challenger/Grandmaster/Master tier lists. It pushes
-              `match.collect` events to <strong>RabbitMQ</strong>.
-            </p>
-            <p>
-              <strong>Workers</strong> consume these events with `prefetch: 1`
-              to ensure reliability. They perform:
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-[#8A8A8A]">
-              <li>Duplicate checks via Prisma.</li>
-              <li>Fetch full match details from Riot API.</li>
-              <li>Calculate KDA, damage, and matchup specific stats.</li>
-              <li>Atomic database updates.</li>
-            </ul>
-          </div>
-        </Card>
       </div>
 
       {/* Project Structure */}
