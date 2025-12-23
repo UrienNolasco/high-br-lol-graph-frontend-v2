@@ -102,3 +102,48 @@ export interface MatchupResponse {
   patch: string;
   role: string;
 }
+
+export interface GeneralChampionsData {
+  championId: number;
+  championName: string;
+  winRate: number;
+  gamesPlayed: number;
+  wins: number;
+  losses: number;
+  images: {
+    square: string;
+    loading: string;
+    splash: string;
+  };
+  kda: number;
+  dpm: number;
+  cspm: number;
+  gpm: number;
+  banRate: number;
+  tier: string;
+  rank: number;
+  primaryRole?: string;
+}
+
+export interface GeneralChampionsResponse {
+  data: GeneralChampionsData[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface GetGeneralChampionsParams {
+  page?: number;
+  limit?: number;
+  patch: string;
+  order?: "asc" | "desc";
+  sortBy?:
+    | "winRate"
+    | "gamesPlayed"
+    | "championName"
+    | "banRate"
+    | "kda"
+    | "dpm"
+    | "cspm"
+    | "gpm";
+}
