@@ -196,7 +196,7 @@ export const TierList = () => {
                       </span>
                     </div>
                     {/* Grid de campeões à direita (máximo 6 por linha) */}
-                    <div className="flex-1 grid grid-cols-6 gap-2">
+                    <div className="flex-1 grid grid-cols-5 gap-2">
                       {champions.map((c) => (
                         <div
                           key={c.championId}
